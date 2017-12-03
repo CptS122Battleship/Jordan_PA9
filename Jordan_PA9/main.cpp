@@ -199,17 +199,80 @@ int main()
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
+				int finish = 0;
 
-				int playerTurn = 0;
-				int computerTurn = 0;
-				// clear window to white
-				//window.clear(sf::Color::White);
-				while (playerSunkShips != 5 && computerSunkShips != 5)
+				while (finish != 1)
 				{
 
-					while (playerTurn == 0)
+					int computerTurn = 0;
+					// clear window to white
+					//window.clear(sf::Color::White);
 
+					
+
+
+					// clear window to white
+					window.clear(sf::Color::White);
+					sf::Text compText;
+					compText.setFont(font);
+					compText.setString("Computer Screen");
+					compText.setCharacterSize(35);
+					compText.setColor(sf::Color::Black);
+					compText.setPosition(sf::Vector2f(110, 5));
+					window.draw(compText);
+
+					sf::Text playerText;
+					playerText.setFont(font);
+					playerText.setString("Player Screen");
+					playerText.setCharacterSize(35);
+					playerText.setColor(sf::Color::Black);
+					playerText.setPosition(sf::Vector2f(640, 5));
+					window.draw(playerText);
+
+					// draws both the computer's and player's screen
+					int x = 0;
+					int y = 0;
+					while (x != 10)
 					{
+
+						while (y != 10)
+						{
+							if (computer.getNode(x, y).getHitMiss() == "None")
+							{
+								computer.setNodeColor(x, y, sf::Color::Cyan);
+							}
+							window.draw(computer.getNode(x, y));
+							window.draw(player.getNode(x, y));
+							y += 1;
+
+						}
+						y = 0;
+						x += 1;
+
+					}
+
+					computerTurn = mouseHover(window, computer, player, compText, playerText, carrierC, battleshipC, cruiserC, subC, destroyerC);
+
+					window.display();
+
+					if (computerTurn == 1)
+					{
+						int j = 0;
+						int k = 0;
+
+						while (j != 100000000)
+						{
+							while (k != 10000000)
+							{
+								k += 1;
+							}
+							j += 1;
+						}
+
+
+
+						int randX;
+						int randY;
 
 						// clear window to white
 						window.clear(sf::Color::White);
@@ -251,11 +314,59 @@ int main()
 
 						}
 
-						playerTurn = mouseHover(window, computer, player, compText, playerText, carrierC, battleshipC, cruiserC, subC, destroyerC);
-						
-						window.display();
+						randX = rand() % 10;
+						randY = rand() % 10;
+						while (player.getNode(randX, randY).getHitMiss() != "None")
+						{
 
-						playerTurn = 0;
+							randX = rand() % 10;
+							randY = rand() % 10;
+
+						}
+
+						if (player.getNode(randX, randY).getOccupied() == true)
+						{
+
+							if (player.getNode(randX, randY).getShip() == "Carrier")
+							{
+								carrierP.setHits(carrierP.getHits() + 1);
+							}
+							else if (player.getNode(randX, randY).getShip() == "Battleship")
+							{
+								battleshipP.setHits(battleshipP.getHits() + 1);
+							}
+							else if (player.getNode(randX, randY).getShip() == "Cruiser")
+							{
+								cruiserP.setHits(cruiserP.getHits() + 1);
+							}
+							else if (player.getNode(randX, randY).getShip() == "Submarine")
+							{
+								subP.setHits(subP.getHits() + 1);
+							}
+							else if (player.getNode(randX, randY).getShip() == "Destroyer")
+							{
+								destroyerP.setHits(destroyerP.getHits() + 1);
+							}
+
+							player.setNodeHitMiss(randX, randY, "Hit");
+							player.setNodeColor(randX, randY, sf::Color::Red);
+
+							computerTurn = 0;
+
+						}
+
+						else
+						{
+
+							player.setNodeHitMiss(randX, randY, "Miss");
+							player.setNodeColor(randX, randY, sf::Color::White);
+
+							computerTurn = 0;
+
+						}
+
+						window.display();
+						computerTurn = 0;
 
 					}
 
