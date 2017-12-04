@@ -10,9 +10,6 @@ int main()
 
 	srand((unsigned)time(0));
 
-	int playerSunkShips = 0;
-	int computerSunkShips = 0;
-
 	ScreenNode temp;
 
 	// creates the computer's and the player's screen
@@ -43,7 +40,6 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-
 
 		////////////////////////////////////////////////////////
 		//                    TITLE SCREEN                    //     
@@ -111,7 +107,7 @@ int main()
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
 				int finish = 0;
-				while (finish == 0)
+				while (finish != 1)
 				{
 					window.clear(sf::Color::White);
 					sf::Text rulesTitle;
@@ -124,7 +120,7 @@ int main()
 
 					sf::Text rules;
 					rules.setFont(font);
-					rules.setString("The object of Battleship is to try and sink all of the other player's before they sink all of your ships. All of the other player's ships are somewhere\non his/her board.  You try and hit them by calling out the coordinates of one of the squares on the board.  The other player also tries to hit your\nships by calling out coordinates.  Neither you nor the other player can see the other's board so you must try to guess where they are.  Each board\nin the physical game has two grids:  the lower (horizontal) section for the player's ships and the upper part (vertical during play) for recording the\nplayer's guesses.");
+					rules.setString("The object of Battleship is to try and sink all of the super computer's before they sink all of your ships. All of the computer's ships are somewhere\non the super computer's board.  You try and hit them by hovering your mouse over the cell on the opponent's board and clicking that cell (make\nsure to release the mouse button immediately after clicking). The super computer also tries to hit your\nships by with its complex randomization algorithm.");
 					rules.setCharacterSize(15);
 					rules.setColor(sf::Color::Black);
 					rules.setPosition(sf::Vector2f(0, 75));
@@ -140,7 +136,7 @@ int main()
 
 					sf::Text newGame;
 					newGame.setFont(font);
-					newGame.setString("Each player places the 5 ships somewhere on their board.  The ships can only be placed vertically or horizontally. Diagonal placement is not allowed.\nNo part of a ship may hang off the edge of the board.  Ships may not overlap each other.  No ships may be placed on another ship. Once the\nguessing begins, the players may not move the ships. The 5 ships are:  Carrier (occupies 5 spaces), Battleship (4), Cruiser (3), Submarine (3), and\nDestroyer (2).");
+					newGame.setString("Your ships as well as the super computer's ships will be randomly placed on the board using another different even more complex randomization\nalgorithm.");
 					newGame.setCharacterSize(15);
 					newGame.setColor(sf::Color::Black);
 					newGame.setPosition(sf::Vector2f(0, 250));
@@ -156,7 +152,7 @@ int main()
 
 					sf::Text playingGame;
 					playingGame.setFont(font);
-					playingGame.setString("Player's take turns guessing by calling out the coordinates. The opponent responds with \"hit\" or \"miss\" as appropriate.  Both players should mark\ntheir board with pegs:  red for hit, white for miss. For example, if you call out F6 and your opponent does not have any ship located at F6, your\nopponent would respond with \"miss\".  You record the miss F6 by placing a white peg on the lower part of your board at F6.  Your opponent records\nthe miss by placing. When all of the squares that one your ships occupies have been hit, the ship will be sunk.   You should announce\n\"hit and sunk\".  In the physical game, a red peg is placed on the top edge of the vertical board to indicate a sunk ship. As soon as all of one player's\nships have been sunk, the game ends.");
+					playingGame.setString("You and the super computer take turns guessing the coordinates. Both player's boards are marked:\nred for hit, white for miss. When all the cells on your ship or the super computer's ship have been hit, the ship will be sunk. You will see on the screen\n which ship has been sunk. As soon as all of one player's\nships have been sunk, the game ends.");
 					playingGame.setCharacterSize(15);
 					playingGame.setColor(sf::Color::Black);
 					playingGame.setPosition(sf::Vector2f(0, 400));
@@ -172,13 +168,19 @@ int main()
 
 					window.display();
 
-					
-
-
-					if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+					if (sf::Mouse::getPosition(window).y >= 600 && sf::Mouse::getPosition(window).y <= 650)
 					{
-						finish = 1;
+
+						exitRules.setColor(sf::Color::Red);
+						window.draw(exitRules);
+						window.display();
+
+						if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition(window).y >= 600 && sf::Mouse::getPosition(window).y <= 650))
+						{
+							finish = 1;
+						}
 					}
+
 				}
 				
 			}
@@ -199,6 +201,7 @@ int main()
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
+
 				int finish = 0;
 
 				while (finish != 1)
@@ -252,6 +255,152 @@ int main()
 					}
 
 					computerTurn = mouseHover(window, computer, player, compText, playerText, carrierC, battleshipC, cruiserC, subC, destroyerC);
+
+					if (carrierC.isDestroyed() == true)
+					{
+
+						sf::Text computerCarrier;
+						computerCarrier.setFont(font);
+						computerCarrier.setString("Carrier Sunk");
+						computerCarrier.setCharacterSize(30);
+						computerCarrier.setColor(sf::Color::Green);
+						computerCarrier.setPosition(sf::Vector2f(110, 450));
+						window.draw(computerCarrier);
+
+					}
+
+					if (battleshipC.isDestroyed() == true)
+					{
+
+						sf::Text computerBattleship;
+						computerBattleship.setFont(font);
+						computerBattleship.setString("Battleship Sunk");
+						computerBattleship.setCharacterSize(30);
+						computerBattleship.setColor(sf::Color::Green);
+						computerBattleship.setPosition(sf::Vector2f(110, 490));
+						window.draw(computerBattleship);
+
+					}
+
+					if (cruiserC.isDestroyed() == true)
+					{
+
+						sf::Text computerCruiser;
+						computerCruiser.setFont(font);
+						computerCruiser.setString("Cruiser Sunk");
+						computerCruiser.setCharacterSize(30);
+						computerCruiser.setColor(sf::Color::Green);
+						computerCruiser.setPosition(sf::Vector2f(110, 530));
+						window.draw(computerCruiser);
+
+					}
+
+					if (subC.isDestroyed() == true)
+					{
+
+						sf::Text computerSub;
+						computerSub.setFont(font);
+						computerSub.setString("Submarine Sunk");
+						computerSub.setCharacterSize(30);
+						computerSub.setColor(sf::Color::Green);
+						computerSub.setPosition(sf::Vector2f(110, 570));
+						window.draw(computerSub);
+
+					}
+
+					if (destroyerC.isDestroyed() == true)
+					{
+
+						sf::Text computerDestroyer;
+						computerDestroyer.setFont(font);
+						computerDestroyer.setString("Destroyer Sunk");
+						computerDestroyer.setCharacterSize(30);
+						computerDestroyer.setColor(sf::Color::Green);
+						computerDestroyer.setPosition(sf::Vector2f(110, 610));
+						window.draw(computerDestroyer);
+
+					}
+
+					if (carrierC.isDestroyed() == true && battleshipC.isDestroyed() == true && cruiserC.isDestroyed() == true && subC.isDestroyed() == true && destroyerC.isDestroyed() == true)
+
+					{
+
+						finish = 1;
+
+					}
+
+					if (carrierP.isDestroyed() == true)
+					{
+
+						sf::Text playerCarrier;
+						playerCarrier.setFont(font);
+						playerCarrier.setString("Carrier Sunk");
+						playerCarrier.setCharacterSize(30);
+						playerCarrier.setColor(sf::Color::Red);
+						playerCarrier.setPosition(sf::Vector2f(640, 450));
+						window.draw(playerCarrier);
+
+					}
+
+					if (battleshipP.isDestroyed() == true)
+					{
+
+						sf::Text playerBattleship;
+						playerBattleship.setFont(font);
+						playerBattleship.setString("Battleship Sunk");
+						playerBattleship.setCharacterSize(30);
+						playerBattleship.setColor(sf::Color::Red);
+						playerBattleship.setPosition(sf::Vector2f(640, 490));
+						window.draw(playerBattleship);
+
+					}
+
+					if (cruiserP.isDestroyed() == true)
+					{
+
+						sf::Text playerCruiser;
+						playerCruiser.setFont(font);
+						playerCruiser.setString("Cruiser Sunk");
+						playerCruiser.setCharacterSize(30);
+						playerCruiser.setColor(sf::Color::Red);
+						playerCruiser.setPosition(sf::Vector2f(640, 530));
+						window.draw(playerCruiser);
+
+					}
+
+					if (subP.isDestroyed() == true)
+					{
+
+						sf::Text playerSub;
+						playerSub.setFont(font);
+						playerSub.setString("Submarine Sunk");
+						playerSub.setCharacterSize(30);
+						playerSub.setColor(sf::Color::Red);
+						playerSub.setPosition(sf::Vector2f(640, 570));
+						window.draw(playerSub);
+
+					}
+
+					if (destroyerP.isDestroyed() == true)
+					{
+
+						sf::Text playerDestroyer;
+						playerDestroyer.setFont(font);
+						playerDestroyer.setString("Destroyer Sunk");
+						playerDestroyer.setCharacterSize(30);
+						playerDestroyer.setColor(sf::Color::Red);
+						playerDestroyer.setPosition(sf::Vector2f(640, 610));
+						window.draw(playerDestroyer);
+
+					}
+
+					if (carrierP.isDestroyed() == true && battleshipP.isDestroyed() == true && cruiserP.isDestroyed() == true && subP.isDestroyed() == true && destroyerP.isDestroyed() == true)
+
+					{
+
+						finish = 1;
+
+					}
 
 					window.display();
 
@@ -367,6 +516,158 @@ int main()
 
 						window.display();
 						computerTurn = 0;
+
+					}
+
+				}
+
+				if (carrierC.isDestroyed() == true && battleshipC.isDestroyed() == true && cruiserC.isDestroyed() == true && subC.isDestroyed() == true && destroyerC.isDestroyed() == true)
+
+				{
+
+					// creates the computer's and the player's screen
+					computer = Screen();
+					player = Screen(550, 50);
+
+					player.playerShipSetup();
+					computer.computerShipSetup();
+
+					// creates ships for both the player and the computer
+					carrierP = AircraftCarrier();
+					carrierC = AircraftCarrier();
+					battleshipP = Battleship();
+					battleshipC = Battleship();
+					cruiserP = Cruiser();
+					cruiserC = Cruiser();
+					subP = Submarine();
+					subC = Submarine();
+					destroyerP = Destroyer();
+					destroyerC = Destroyer();
+
+					int j = 0;
+					int k = 0;
+
+					while (j != 100000000)
+					{
+						while (k != 100000000)
+						{
+							k += 1;
+						}
+						j += 1;
+					}
+
+					int finish = 0;
+					while (finish != 1)
+					{
+
+						window.clear(sf::Color::White);
+
+						sf::Text playerWin;
+						playerWin.setFont(font);
+						playerWin.setString("You win!");
+						playerWin.setCharacterSize(75);
+						playerWin.setColor(sf::Color::Black);
+						playerWin.setPosition(sf::Vector2f(350, 200));
+						window.draw(playerWin);
+
+						sf::Text exitGame;
+						exitGame.setFont(font);
+						exitGame.setString("Press here to go back");
+						exitGame.setCharacterSize(50);
+						exitGame.setColor(sf::Color::Black);
+						exitGame.setPosition(sf::Vector2f(250, 600));
+						window.draw(exitGame);
+
+						window.display();
+
+						if (sf::Mouse::getPosition(window).y >= 600 && sf::Mouse::getPosition(window).y <= 650)
+						{
+
+							exitGame.setColor(sf::Color::Red);
+							window.draw(exitGame);
+							window.display();
+
+							if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition(window).y >= 600 && sf::Mouse::getPosition(window).y <= 650))
+							{
+								finish = 1;
+							}
+						}
+
+					}
+
+				}
+
+				if (carrierP.isDestroyed() == true && battleshipP.isDestroyed() == true && cruiserP.isDestroyed() == true && subP.isDestroyed() == true && destroyerP.isDestroyed() == true)
+
+				{
+
+					// creates the computer's and the player's screen
+					computer = Screen();
+					player = Screen(550, 50);
+
+					player.playerShipSetup();
+					computer.computerShipSetup();
+
+					// creates ships for both the player and the computer
+					carrierP = AircraftCarrier();
+					carrierC = AircraftCarrier();
+					battleshipP = Battleship();
+					battleshipC = Battleship();
+					cruiserP = Cruiser();
+					cruiserC = Cruiser();
+					subP = Submarine();
+					subC = Submarine();
+					destroyerP = Destroyer();
+					destroyerC = Destroyer();
+
+					int j = 0;
+					int k = 0;
+
+					while (j != 100000000)
+					{
+						while (k != 100000000)
+						{
+							k += 1;
+						}
+						j += 1;
+					}
+
+					int finish = 0;
+					while (finish != 1)
+					{
+
+						window.clear(sf::Color::White);
+
+						sf::Text playerLose;
+						playerLose.setFont(font);
+						playerLose.setString("You lose.");
+						playerLose.setCharacterSize(75);
+						playerLose.setColor(sf::Color::Black);
+						playerLose.setPosition(sf::Vector2f(350, 200));
+						window.draw(playerLose);
+
+						sf::Text exitGame;
+						exitGame.setFont(font);
+						exitGame.setString("Press here to go back");
+						exitGame.setCharacterSize(50);
+						exitGame.setColor(sf::Color::Black);
+						exitGame.setPosition(sf::Vector2f(250, 600));
+						window.draw(exitGame);
+
+						window.display();
+
+						if (sf::Mouse::getPosition(window).y >= 600 && sf::Mouse::getPosition(window).y <= 650)
+						{
+
+							exitGame.setColor(sf::Color::Red);
+							window.draw(exitGame);
+							window.display();
+
+							if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition(window).y >= 600 && sf::Mouse::getPosition(window).y <= 650))
+							{
+								finish = 1;
+							}
+						}
 
 					}
 

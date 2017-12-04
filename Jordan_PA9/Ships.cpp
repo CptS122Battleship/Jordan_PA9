@@ -65,7 +65,7 @@ AircraftCarrier::~AircraftCarrier()
 
 bool AircraftCarrier::isDestroyed()
 {
-	if (this->getHits() == 5)
+	if (this->getHits() >= 5)
 	{
 		return true;
 	}
@@ -141,7 +141,7 @@ Battleship::~Battleship()
 
 bool Battleship::isDestroyed()
 {
-	if (this->getHits() == 4)
+	if (this->getHits() >= 4)
 	{
 		return true;
 	}
@@ -217,7 +217,7 @@ Cruiser::~Cruiser()
 
 bool Cruiser::isDestroyed()
 {
-	if (this->getHits() == 3)
+	if (this->getHits() >= 3)
 	{
 		return true;
 	}
@@ -293,7 +293,7 @@ Submarine::~Submarine()
 
 bool Submarine::isDestroyed()
 {
-	if (this->getHits() == 3)
+	if (this->getHits() >= 3)
 	{
 		return true;
 	}
@@ -369,7 +369,7 @@ Destroyer::~Destroyer()
 
 bool Destroyer::isDestroyed()
 {
-	if (this->getHits() == 2)
+	if (this->getHits() >= 2)
 	{
 		return true;
 	}

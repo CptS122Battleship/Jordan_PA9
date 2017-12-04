@@ -155,7 +155,7 @@ void Screen::computerShipSetup()
 
 		randomX = rand() % 10;
 		randomY = rand() % 10;
-		while (randomY > 5)
+		while (randomY > 5 ||  nodes[randomX][randomY + 1].getOccupied() == true || nodes[randomX][randomY + 2].getOccupied() == true || nodes[randomX][randomY + 3].getOccupied() == true || nodes[randomX][randomY + 4].getOccupied() == true)
 		{
 			randomY = rand() % 10;
 		}
@@ -176,7 +176,7 @@ void Screen::computerShipSetup()
 
 		randomX = rand() % 10;
 		randomY = rand() % 10;
-		while (randomX > 5)
+		while (randomX > 5 || nodes[randomX + 1][randomY].getOccupied() == true || nodes[randomX + 2][randomY].getOccupied() == true || nodes[randomX + 3][randomY].getOccupied() == true || nodes[randomX + 4][randomY].getOccupied() == true)
 		{
 			randomX = rand() % 10;
 		}
